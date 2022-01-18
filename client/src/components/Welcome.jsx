@@ -1,7 +1,10 @@
+import { useContext } from "react";
+
 import { AiFillPlayCircle } from "react-icons/ai";
 import { SiEthereum } from "react-icons/si";
 import { BsInfoCircle } from "react-icons/bs";
 
+import { TransactionContext } from "../context/TransactionContext";
 import Loader from "./Loader";
 
 const commonStyles =
@@ -19,8 +22,23 @@ const Input = ({ placeholder, name, type, value, handleChange }) => (
 );
 
 const Welcome = () => {
-  const connectWallet = () => {};
-  const handleSubmit = () => {};
+  const {
+    connectWallet,
+    currentAccount,
+    formData,
+    handleChange,
+    sendTransaction,
+  } = useContext(TransactionContext);
+
+  const handleSubmit = (e) => {
+    const { addressTo, amount, keyword, message } = formData;
+
+    e.preventDefault();
+
+    if (!addressTo || !amount || !keyword || !message) return;
+    console.log(formData);
+    sendTransaction();
+  };
 
   return (
     <div className=" flex w-full justify-center items-center">
@@ -32,13 +50,15 @@ const Welcome = () => {
           <p className="text-white text-left mt-5 font-light md:w-9/12 w-11/12">
             Explore the crypto world!!!
           </p>
-          <button
-            type="button"
-            onClick={connectWallet()}
-            className="text-white font-semibold flex flex-row justify-center items-center my-5 bg-[#2952e3] p-3 rounded-full cursor-pointer hover:bg-[#2546bd] transition-all hover:transition-all   "
-          >
-            Connect Wallet
-          </button>
+          {!currentAccount && (
+            <button
+              type="button"
+              onClick={connectWallet}
+              className="text-white font-semibold flex flex-row justify-center items-center my-5 bg-[#2952e3] p-3 rounded-full cursor-pointer hover:bg-[#2546bd] transition-all hover:transition-all   "
+            >
+              Connect Wallet
+            </button>
+          )}
           <div className=" grid grid-cols-2 sm:grid-cols-3">
             <div className={` rounded-tl-2xl ${commonStyles}`}>Reliability</div>
             <div className={`${commonStyles}`}>Security</div>
@@ -76,29 +96,29 @@ const Welcome = () => {
               placeholder="Address To"
               name="addressTo"
               type="text"
-              handleChange={() => {}}
+              handleChange={handleChange}
             />
             <Input
-              placeholder="Address (ETH)"
+              placeholder="Amount (ETH)"
               name="amount"
               type="number"
-              handleChange={() => {}}
+              handleChange={handleChange}
             />
             <Input
               placeholder="Keyword (GIF)"
               name="keyword"
               type="text"
-              handleChange={() => {}}
+              handleChange={handleChange}
             />
             <Input
               placeholder="Message"
               name="message"
               type="text"
-              handleChange={() => {}}
+              handleChange={handleChange}
             />
             <div className=" h-[1px] bg-[grey] w-full my-2 " />
 
-            {true ? (
+            {false ? (
               <Loader />
             ) : (
               <button
