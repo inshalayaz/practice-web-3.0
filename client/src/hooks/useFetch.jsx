@@ -1,32 +1,32 @@
 import { useEffect, useState } from "react";
 
-const API_KEY = import.meta.env.GIPHY_API;
+const API_KEY = import.meta.env.VITE_GIPHY_API;
 
 const useFetch = ({ keyword }) => {
-  const [gifURL, setGitURL] = useState("");
+  const [gifUrl, setGifUrl] = useState("");
 
   const fetchGifs = async () => {
     try {
       const response = await fetch(
         `https://api.giphy.com/v1/gifs/search?api_key=${API_KEY}&q=${keyword
-          .splid(" ")
+          .split(" ")
           .join("")}&limit=1`
       );
       const { data } = await response.json();
-      setGitURL(data[0]?.images?.downsized_medium?.url);
+
+      setGifUrl(data[0]?.images?.downsized_medium.url);
     } catch (error) {
-      setGitURL(
-        "https://i.pinimg.com/originals/73/d3/a1/73d3a14d212314ab1f7268b71d639c15.gif"
+      setGifUrl(
+        "https://metro.co.uk/wp-content/uploads/2015/05/pokemon_crying.gif?quality=90&strip=all&zoom=1&resize=500%2C284"
       );
     }
   };
 
   useEffect(() => {
-    if (keyword) {
-      fetchGifs();
-    }
+    if (keyword) fetchGifs();
   }, [keyword]);
-  return gifURL;
+
+  return gifUrl;
 };
 
 export default useFetch;
