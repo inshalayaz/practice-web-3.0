@@ -15,7 +15,6 @@ const TransactionCard = ({
   message,
   url,
 }) => {
-  console.log(keyword);
   const gifURL = useFetch({ keyword });
   return (
     <div
